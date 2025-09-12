@@ -6,7 +6,7 @@ body {
 .container {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 16px;
   width: 500px;
   padding: 16px;
   background: #fafafa;
@@ -36,14 +36,13 @@ body {
   font-size: 12px;
   border-radius: 4px;
   overflow: hidden;
-  height: 40px;
+  height: 50px;
 
   .target {
     display: flex;
     align-items: center;
     flex: 0 0 auto;
     background: #191919;
-    color: #fff;
     padding: 8px;
     font-weight: 700;
     letter-spacing: 0.1em;
@@ -85,7 +84,7 @@ body {
   flex-direction: column;
   gap: 8px;
   align-items: center;
-  border: 1px solid #e0e0e0;
+  border: none;
   border-radius: 8px;
   background: #fff;
   padding: 16px 8px;
@@ -105,7 +104,6 @@ body {
 
   &:hover {
     background: #dc1e34;
-    border-color: #dc1e34;
 
     span {
       color: #fff;
@@ -118,7 +116,6 @@ body {
 
   &:disabled {
     background: #efefef;
-    border-color: #efefef;
     cursor: default;
     span {
       color: #ccc;
