@@ -7,7 +7,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  width: 500px;
+  width: 550px;
   padding: 16px;
   background: #fafafa;
 }
@@ -18,13 +18,14 @@ body {
 
   h1 {
     font-size: 16px;
-    margin-bottom: 8px;
+    margin: 0;
   }
 
   .env {
     font-family: monospace;
     font-size: 12px;
     background: #efefef;
+    color: #1f1f1f;
     border-radius: 4px;
     padding: 4px;
     margin-left: 8px;
@@ -67,16 +68,8 @@ body {
 
 .grid {
   display: grid;
-
+  grid-template-columns: repeat(5, 1fr);
   gap: 8px;
-
-  &.twoCol {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  &.fourCol {
-    grid-template-columns: repeat(4, 1fr);
-  }
 }
 
 .button {

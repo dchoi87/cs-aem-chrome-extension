@@ -52,7 +52,8 @@ const Popup = () => {
 
       // set env and path
       if (domain === "cedars-sinai") {
-        setEnv(subdomain.split("-")[1] || "prod");
+        const _env = subdomain.split("-")[1];
+        setEnv(_env === "preview" ? "prod" : _env || "prod");
         setPath(path);
         setApp(app);
         setTld(tld);
@@ -65,6 +66,9 @@ const Popup = () => {
       let targetUrl;
 
       switch (hoverText) {
+        case "preview":
+          targetUrl = `https://www-preview.cedars-sinai.${tld}/${path}.html`;
+          break;
         case "dispatcher":
           targetUrl = `https://www-${env}.cedars-sinai.${tld}/${path}.html`;
           break;
@@ -110,7 +114,7 @@ const Popup = () => {
         </div>
         <div className={styles.hover}>{target || "Target URL"}</div>
       </div>
-      <div className={classNames(styles.grid, styles.fourCol)}>
+      <div className={styles.grid}>
         <button
           className={styles.button}
           onClick={handleClick}
@@ -155,9 +159,21 @@ const Popup = () => {
           disabled={!env}
         >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="m8,6.5c0,.828-.672,1.5-1.5,1.5s-1.5-.672-1.5-1.5.672-1.5,1.5-1.5,1.5.672,1.5,1.5Zm-1.5,8.5c-.828,0-1.5.672-1.5,1.5s.672,1.5,1.5,1.5,1.5-.672,1.5-1.5-.672-1.5-1.5-1.5Zm0-5c-.828,0-1.5.672-1.5,1.5s.672,1.5,1.5,1.5,1.5-.672,1.5-1.5-.672-1.5-1.5-1.5ZM20.5,0H3.5C1.57,0,0,1.57,0,3.5v19.5h10.275c-.962-1.038-1.551-2.075-1.817-2.613l-.191-.387H3V3.5c0-.276.224-.5.5-.5h17c.276,0,.5.224.5.5v10.432c1.276.64,2.267,1.52,3,2.372V3.5c0-1.93-1.57-3.5-3.5-3.5Zm-1.5,5h-9v3h9v-3Zm-9,8h9v-3h-9v3Zm13.75,6.5c-.577,1.165-2.592,4.5-6.75,4.5s-6.175-3.338-6.75-4.5c.577-1.165,2.592-4.5,6.75-4.5s6.173,3.334,6.75,4.5Zm-4.75,0c0-1.105-.895-2-2-2s-2,.895-2,2,.895,2,2,2,2-.895,2-2Z" />
+            <path d="m19 1h-14a5.006 5.006 0 0 0 -5 5v12a5.006 5.006 0 0 0 5 5h14a5.006 5.006 0 0 0 5-5v-12a5.006 5.006 0 0 0 -5-5zm-14 2h14a3 3 0 0 1 3 3v1h-20v-1a3 3 0 0 1 3-3zm14 18h-14a3 3 0 0 1 -3-3v-9h20v9a3 3 0 0 1 -3 3zm0-8a1 1 0 0 1 -1 1h-12a1 1 0 0 1 0-2h12a1 1 0 0 1 1 1zm-4 4a1 1 0 0 1 -1 1h-8a1 1 0 0 1 0-2h8a1 1 0 0 1 1 1zm-12-12a1 1 0 1 1 1 1 1 1 0 0 1 -1-1zm3 0a1 1 0 1 1 1 1 1 1 0 0 1 -1-1zm3 0a1 1 0 1 1 1 1 1 1 0 0 1 -1-1z" />
           </svg>
           <span>Dispatcher</span>
+        </button>
+        <button
+          className={styles.button}
+          onClick={handleClick}
+          onMouseEnter={() => setHoverText("preview")}
+          onMouseLeave={() => setHoverText("")}
+          disabled={!env || env !== "prod"}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="m8,11c0,.828-.672,1.5-1.5,1.5s-1.5-.672-1.5-1.5.672-1.5,1.5-1.5,1.5.672,1.5,1.5Zm-1.5-6.5c-.828,0-1.5.672-1.5,1.5s.672,1.5,1.5,1.5,1.5-.672,1.5-1.5-.672-1.5-1.5-1.5Zm0,10c-.828,0-1.5.672-1.5,1.5s.672,1.5,1.5,1.5,1.5-.672,1.5-1.5-.672-1.5-1.5-1.5ZM21,0H3C1.346,0,0,1.346,0,3v20h10.321c-.712-.788-1.172-1.538-1.421-2H2V3c0-.551.449-1,1-1h18c.551,0,1,.449,1,1v11.531c.831.572,1.495,1.228,2,1.842V3c0-1.654-1.346-3-3-3Zm-2,5h-9v2h9v-2Zm-9,7h9v-2h-9v2Zm13.387,7.039l.24.461-.24.461c-.492.947-2.407,4.039-6.387,4.039s-5.896-3.092-6.388-4.039l-.239-.461.239-.46c.491-.948,2.403-4.04,6.388-4.04s5.896,3.092,6.387,4.039Zm-2.041.461c-.633-.995-1.981-2.5-4.347-2.5s-3.715,1.505-4.347,2.5c.632.995,1.98,2.5,4.347,2.5s3.714-1.505,4.347-2.5Zm-4.347-1.5c-.828,0-1.5.672-1.5,1.5s.672,1.5,1.5,1.5,1.5-.672,1.5-1.5-.672-1.5-1.5-1.5Z" />
+          </svg>
+          <span>Preview</span>
         </button>
       </div>
     </div>
