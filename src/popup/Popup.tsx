@@ -66,21 +66,27 @@ const Popup = () => {
       let targetUrl;
 
       switch (hoverText) {
-        case "preview":
+        case "preview": {
           targetUrl = `https://www-preview.cedars-sinai.${tld}/${path}.html`;
           break;
-        case "dispatcher":
-          targetUrl = `https://www-${env}.cedars-sinai.${tld}/${path}.html`;
+        }
+        case "dispatcher": {
+          const subdomain = env === "prod" ? "www" : `www-${env}`;
+          targetUrl = `https://${subdomain}.cedars-sinai.${tld}/${path}.html`;
           break;
-        case "dashboard":
+        }
+        case "dashboard": {
           targetUrl = `https://author-${env}.cedars-sinai.org/sites.html/content/${app}/${path}`;
           break;
-        case "editor":
+        }
+        case "editor": {
           targetUrl = `https://author-${env}.cedars-sinai.org/editor.html/content/${app}/${path}.html`;
           break;
-        case "published":
+        }
+        case "published": {
           targetUrl = `https://author-${env}.cedars-sinai.org/content/${app}/${path}.html?wcmmode=disabled`;
           break;
+        }
       }
 
       setTarget(targetUrl);

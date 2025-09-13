@@ -81,22 +81,26 @@ body {
   border-radius: 8px;
   background: #fff;
   padding: 16px 8px;
+  box-shadow: 0px 5px 10px 2px #efefef73;
+  transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   cursor: pointer;
 
   span {
     font-size: 12px;
     text-transform: uppercase;
+    transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
     color: #191919;
   }
 
   svg {
     width: 20px;
     height: 20px;
+    transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
     fill: #191919;
   }
 
   &:hover {
-    background: #dc1e34;
+    background-color: #dc1e34;
 
     span {
       color: #fff;
