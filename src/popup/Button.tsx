@@ -1,17 +1,21 @@
 import type { Dispatch, SetStateAction } from "react";
 
+import { type IconName } from "@/icons";
+
 import Icon from "./Icon";
 
 import styles from "./Button.module.scss";
 
 type ButtonProps = {
-  name: string;
+  name: IconName;
   env?: string;
   target?: string;
   setHoverText: Dispatch<SetStateAction<string>>;
 };
 
 const Button = ({ name, env, target, setHoverText }: ButtonProps) => {
+  const notProd = env !== "prod" && name === "preview";
+
   const handleClick = () => {
     chrome.tabs.create({ url: target });
   };
@@ -22,9 +26,9 @@ const Button = ({ name, env, target, setHoverText }: ButtonProps) => {
       onClick={handleClick}
       onMouseEnter={() => setHoverText(name)}
       onMouseLeave={() => setHoverText("")}
-      disabled={!env}
+      disabled={!env || notProd}
     >
-      <Icon name="dashboard" />
+      <Icon name={name} />
       <span>{name}</span>
     </button>
   );

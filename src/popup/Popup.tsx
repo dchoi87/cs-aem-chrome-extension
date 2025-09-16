@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import Button from "./Button";
 import Icon from "./Icon";
 
+import { ICONS, type IconName } from "@/icons";
+
 import styles from "./Popup.module.scss";
 
 type Config = {
@@ -17,6 +19,7 @@ const Popup = () => {
   const [config, setConfig] = useState<Config>({});
   const [target, setTarget] = useState<string | undefined>("");
   const [hoverText, setHoverText] = useState<string>("");
+  const ctas = (Object.keys(ICONS) as IconName[]).filter((name) => name !== "target");
 
   useEffect(() => {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -117,7 +120,7 @@ const Popup = () => {
         <div className={styles.hover}>{target || "Target URL"}</div>
       </div>
       <div className={styles.grid}>
-        {["dashboard", "editor", "published", "dispatcher", "preview"].map((name) => (
+        {ctas.map((name) => (
           <Button name={name} env={config.env} target={target} setHoverText={setHoverText} />
         ))}
       </div>

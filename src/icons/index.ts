@@ -7,10 +7,10 @@ import Target from "./Target";
 
 export const ICONS = {
   dashboard: Dashboard,
-  dispatcher: Dispatcher,
   editor: Editor,
-  preview: Preview,
   published: Published,
+  dispatcher: Dispatcher,
+  preview: Preview,
   target: Target,
 } as const;
 
