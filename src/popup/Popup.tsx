@@ -34,32 +34,29 @@ const Popup = () => {
   useEffect(() => {
     if (url) {
       const _url = new URL(url);
-      // host
       const host = _url.host.split(".");
       const subdomain = host[0];
       const domain = host[1];
-      const tld = host.length > 3 ? host.slice(2).join(".") : host[2];
+      const isAuthor = subdomain.includes('author');
+      const pathname = _url.pathname.split("/");
+      let path, app: string, tld;
 
-      // app
       const appIds = {
         org: "cedars-sinai",
         edu: "cedars-sinai-edu",
         ["co.uk"]: "cedars-sinai-uk",
       } as const;
-      const app = appIds[tld as keyof typeof appIds];
 
-      // path
-      const pathname = _url.pathname.split("/");
-      const idx = pathname.indexOf(app);
-      const isDispatcher = !pathname.includes("content") && !pathname.includes(app);
-      let path = isDispatcher
-        ? pathname.slice(1).join("/").replace(".html", "")
-        : pathname
-            .slice(idx + 1)
-            .join("/")
-            .replace(".html", "");
+      if (isAuthor) {
+        app = pathname[pathname.indexOf('content') + 1];
+        tld = Object.entries(appIds).find(([, v]) => v === app)?.[0];
+        path = pathname.slice(pathname.indexOf(app) + 1).join("/").replace(".html", "");
+      } else {
+        tld = host.length > 3 ? host.slice(2).join(".") : host[2];
+        app = appIds[tld as keyof typeof appIds];
+        path = pathname.slice(1).join("/").replace(".html", "");
+      }
 
-      // set env and path
       if (domain === "cedars-sinai") {
         const _env = subdomain.split("-")[1];
 
@@ -105,7 +102,7 @@ const Popup = () => {
     } else {
       setTarget("");
     }
-  }, [hoverText, config.path]);
+  }, [hoverText, config]);
 
   return (
     <div className={styles.container}>
@@ -120,8 +117,8 @@ const Popup = () => {
         <div className={styles.hover}>{target || "Target URL"}</div>
       </div>
       <div className={styles.grid}>
-        {ctas.map((name) => (
-          <Button name={name} env={config.env} target={target} setHoverText={setHoverText} />
+        {ctas.map((name, idx) => (
+          <Button key={`btn-${idx}`} name={name} env={config.env} target={target} setHoverText={setHoverText} />
         ))}
       </div>
     </div>

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Cedars-Sinai AEM Extension",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Utility extension for navigating AEM Pages",
   "action": {
     "default_title": "Cedars-Sinai AEM Extension",
