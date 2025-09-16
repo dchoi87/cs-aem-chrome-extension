@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+import Button from "./Button";
 import Icon from "./Icon";
 
 import styles from "./Popup.module.scss";
@@ -96,10 +97,6 @@ const Popup = () => {
     }
   }, [hoverText, path]);
 
-  const handleClick = () => {
-    chrome.tabs.create({ url: target });
-  };
-
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -113,56 +110,9 @@ const Popup = () => {
         <div className={styles.hover}>{target || "Target URL"}</div>
       </div>
       <div className={styles.grid}>
-        <button
-          className={styles.button}
-          onClick={handleClick}
-          onMouseEnter={() => setHoverText("dashboard")}
-          onMouseLeave={() => setHoverText("")}
-          disabled={!env}
-        >
-          <Icon name="dashboard" />
-          <span>Dashboard</span>
-        </button>
-        <button
-          className={styles.button}
-          onClick={handleClick}
-          onMouseEnter={() => setHoverText("editor")}
-          onMouseLeave={() => setHoverText("")}
-          disabled={!env}
-        >
-          <Icon name="editor" />
-          <span>Editor</span>
-        </button>
-        <button
-          className={styles.button}
-          onClick={handleClick}
-          onMouseEnter={() => setHoverText("published")}
-          onMouseLeave={() => setHoverText("")}
-          disabled={!env}
-        >
-          <Icon name="published" />
-          <span>Published</span>
-        </button>
-        <button
-          className={styles.button}
-          onClick={handleClick}
-          onMouseEnter={() => setHoverText("dispatcher")}
-          onMouseLeave={() => setHoverText("")}
-          disabled={!env}
-        >
-          <Icon name="dispatcher" />
-          <span>Dispatcher</span>
-        </button>
-        <button
-          className={styles.button}
-          onClick={handleClick}
-          onMouseEnter={() => setHoverText("preview")}
-          onMouseLeave={() => setHoverText("")}
-          disabled={!env || env !== "prod"}
-        >
-          <Icon name="preview" />
-          <span>Preview</span>
-        </button>
+        {["dashboard", "editor", "published", "dispatcher", "preview"].map((name) => (
+          <Button name={name} env={env} target={target} setHoverText={setHoverText} />
+        ))}
       </div>
     </div>
   );
