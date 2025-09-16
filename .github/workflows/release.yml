@@ -22,7 +22,7 @@ jobs:
       - name: Zip dist
         run: |
           cd dist
-          zip -r ../extension-${{ github.ref_name }}.zip .
+          zip -r ../cs-aem-chrome-extension-${{ github.ref_name }}.zip .
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -32,4 +32,4 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            extension-${{ github.ref_name }}.zip
+            cs-aem-chrome-extension-${{ github.ref_name }}.zip
