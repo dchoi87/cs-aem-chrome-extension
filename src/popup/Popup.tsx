@@ -5,12 +5,16 @@ import Icon from "./Icon";
 
 import styles from "./Popup.module.scss";
 
+type Config = {
+  env?: string;
+  path?: string;
+  app?: string;
+  tld?: string;
+};
+
 const Popup = () => {
   const [url, setUrl] = useState<string>("");
-  const [env, setEnv] = useState<string>("");
-  const [path, setPath] = useState<string>("");
-  const [app, setApp] = useState<string>("");
-  const [tld, setTld] = useState<string>("");
+  const [config, setConfig] = useState<Config>({});
   const [target, setTarget] = useState<string | undefined>("");
   const [hoverText, setHoverText] = useState<string>("");
 
@@ -34,12 +38,12 @@ const Popup = () => {
       const tld = host.length > 3 ? host.slice(2).join(".") : host[2];
 
       // app
-      const config = {
+      const appIds = {
         org: "cedars-sinai",
         edu: "cedars-sinai-edu",
         ["co.uk"]: "cedars-sinai-uk",
       } as const;
-      const app = config[tld as keyof typeof config];
+      const app = appIds[tld as keyof typeof appIds];
 
       // path
       const pathname = _url.pathname.split("/");
@@ -55,38 +59,41 @@ const Popup = () => {
       // set env and path
       if (domain === "cedars-sinai") {
         const _env = subdomain.split("-")[1];
-        setEnv(_env === "preview" ? "prod" : _env || "prod");
-        setPath(path);
-        setApp(app);
-        setTld(tld);
+
+        setConfig({
+          env: _env === "preview" ? "prod" : _env || "prod",
+          path,
+          app,
+          tld,
+        });
       }
     }
   }, [url]);
 
   useEffect(() => {
-    if (hoverText && path) {
+    if (hoverText && config.path) {
       let targetUrl;
 
       switch (hoverText) {
         case "preview": {
-          targetUrl = `https://www-preview.cedars-sinai.${tld}/${path}.html`;
+          targetUrl = `https://www-preview.cedars-sinai.${config.tld}/${config.path}.html`;
           break;
         }
         case "dispatcher": {
-          const subdomain = env === "prod" ? "www" : `www-${env}`;
-          targetUrl = `https://${subdomain}.cedars-sinai.${tld}/${path}.html`;
+          const subdomain = config.env === "prod" ? "www" : `www-${config.env}`;
+          targetUrl = `https://${subdomain}.cedars-sinai.${config.tld}/${config.path}.html`;
           break;
         }
         case "dashboard": {
-          targetUrl = `https://author-${env}.cedars-sinai.org/sites.html/content/${app}/${path}`;
+          targetUrl = `https://author-${config.env}.cedars-sinai.org/sites.html/content/${config.app}/${config.path}`;
           break;
         }
         case "editor": {
-          targetUrl = `https://author-${env}.cedars-sinai.org/editor.html/content/${app}/${path}.html`;
+          targetUrl = `https://author-${config.env}.cedars-sinai.org/editor.html/content/${config.app}/${config.path}.html`;
           break;
         }
         case "published": {
-          targetUrl = `https://author-${env}.cedars-sinai.org/content/${app}/${path}.html?wcmmode=disabled`;
+          targetUrl = `https://author-${config.env}.cedars-sinai.org/content/${config.app}/${config.path}.html?wcmmode=disabled`;
           break;
         }
       }
@@ -95,13 +102,13 @@ const Popup = () => {
     } else {
       setTarget("");
     }
-  }, [hoverText, path]);
+  }, [hoverText, config.path]);
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <h1>AEM WEB HELPER</h1>
-        {env && <div className={styles.env}>{env}</div>}
+        {config.env && <div className={styles.env}>{config.env}</div>}
       </div>
       <div className={styles.url}>
         <div className={styles.target}>
@@ -111,7 +118,7 @@ const Popup = () => {
       </div>
       <div className={styles.grid}>
         {["dashboard", "editor", "published", "dispatcher", "preview"].map((name) => (
-          <Button name={name} env={env} target={target} setHoverText={setHoverText} />
+          <Button name={name} env={config.env} target={target} setHoverText={setHoverText} />
         ))}
       </div>
     </div>

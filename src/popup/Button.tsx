@@ -6,7 +6,7 @@ import styles from "./Button.module.scss";
 
 type ButtonProps = {
   name: string;
-  env: string;
+  env?: string;
   target?: string;
   setHoverText: Dispatch<SetStateAction<string>>;
 };
